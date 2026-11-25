@@ -3,9 +3,9 @@
 #1: vars defined for locations of where data is opened from, col names,
 # which had typos, and data which had unrequired absolute locations
 
-data_f = open('data.json', 'r')
-data_t = open('data.csv','w')
-g_file = 'myplot.png'
+data_f = open('eva-data.json', 'r')
+data_t = open('eva-data.csv','w')
+g_file = 'cumulative_eva_graph.png'
 
 fieldnames = ("EVA", "Country", "Crew", "Vehicle", "Date", "Duration", "Purpose")
 
