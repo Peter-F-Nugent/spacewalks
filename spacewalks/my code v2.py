@@ -1,13 +1,17 @@
 # https://data.nasa.gov/resource/eva.json (with modifications)
-data_f = open('/home/sarah/Projects/astronaut-analysis/data.json', 'r')
-data_t = open('/home/sarah/Projects/astronaut-analysis/data.csv','w')
+
+#1: vars defined for locations of where data is opened from, col names,
+# which had typos, and data which had unrequired absolute locations
+
+data_f = open('data.json', 'r')
+data_t = open('data.csv','w')
 g_file = 'myplot.png'
 
-fieldnames = ("EVA #", "Country", "Crew    ", "Vehicle", "Date", "Duration", "Purpose")
+fieldnames = ("EVA", "Country", "Crew", "Vehicle", "Date", "Duration", "Purpose")
 
 data=[]
 import json
-
+# a list of 375 values for each row is created, command line is initialized to readline() from each line of the JSON
 for i in range(375):
     line=data_f.readline()
     print(line)
@@ -15,9 +19,9 @@ for i in range(375):
 #data.pop(0)
 ## Comment out this bit if you don't want the spreadsheet
 import csv
-
+#Write the data which has been collected to a CSV file called data.csv which was opened at the beginning in write only mode
 w=csv.writer(data_t)
-
+#note that the csv is not saved after writing
 import datetime as dt
 
 time = []
