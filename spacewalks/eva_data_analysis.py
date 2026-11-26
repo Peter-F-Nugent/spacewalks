@@ -118,13 +118,13 @@ def add_duration_hours(df):
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         print('using default input and output files')
-        input_file = './eva-data.json'
-        output_file = './eva-data.csv'
+        input_file = './data/eva-data.json'
+        output_file = './results/eva-data.csv'
     else:
         input_file = sys.argv[1]
         output_file = sys.argv[2]
         print(f'using custom input and output file names:\n'
               f'input file: {input_file}\n'
               f'output file: {output_file}')
-    graph_file = './cumulative_eva_graph.png'
+    graph_file = './results/cumulative_eva_graph.png'
     main(input_file, output_file, graph_file)
