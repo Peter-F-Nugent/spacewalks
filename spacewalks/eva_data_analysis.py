@@ -1,68 +1,76 @@
+import json
+import csv
+import datetime as dt
+
+import matplotlib.pyplot as plt
+
+# it can be good practice to have a new line to seperate python plugins from the imported packages, commonly python ones go first
+
 # https://data.nasa.gov/resource/eva.json (with modifications)
 
-#1: vars defined for locations of where data is opened from, col names,
+# 1: vars defined for locations of where data is opened from, col names,
 # which had typos, and data which had unrequired absolute locations
 
-data_f = open('eva-data.json', 'r',encoding='ascii')
-data_t = open('eva-data.csv','w',encoding='utf-8')
+data_f = open("eva-data.json", "r", encoding="ascii")
+data_t = open("eva-data.csv", "w", encoding="utf-8")
 
 
-g_file = 'cumulative_eva_graph.png'
+g_file = "cumulative_eva_graph.png"
 
 fieldnames = ("EVA", "Country", "Crew", "Vehicle", "Date", "Duration", "Purpose")
 
-data=[]
-import json
+data = []
+
 # a list of 375 values for each row is created, command line is initialized to readline() from each line of the JSON
 for i in range(375):
-    line=data_f.readline()
+    line = data_f.readline()
     print(line)
     data.append(json.loads(line[1:-1]))
-#data.pop(0)
+# data.pop(0)
 ## Comment out this bit if you don't want the spreadsheet
-import csv
-#Write the data which has been collected to a CSV file called data.csv which was opened at the beginning in write only mode
-w=csv.writer(data_t)
-#note that the csv is not saved after writing
-import datetime as dt
+
+# Write the data which has been collected to a CSV file called data.csv which was opened at the beginning in write only mode
+w = csv.writer(data_t)
+# note that the csv is not saved after writing
+
 
 time = []
-date =[]
+date = []
 
-j=0
+j = 0
 for i in data:
     print(data[j])
     # and this bit
     w.writerow(data[j].values())
-    if 'duration' in data[j].keys():
-        tt=data[j]['duration']
-        if tt == '':
+    if "duration" in data[j].keys():
+        tt = data[j]["duration"]
+        if tt == "":
             pass
         else:
-            t=dt.datetime.strptime(tt,'%H:%M')
-            ttt = dt.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second).total_seconds()/(60*60)
-            print(t,ttt)
+            t = dt.datetime.strptime(tt, "%H:%M")
+            ttt = dt.timedelta(
+                hours=t.hour, minutes=t.minute, seconds=t.second
+            ).total_seconds() / (60 * 60)
+            print(t, ttt)
             time.append(ttt)
-            if 'date' in data[j].keys():
-                date.append(dt.datetime.strptime(data[j]['date'][0:10], '%Y-%m-%d'))
-                #date.append(data[j]['date'][0:10])
+            if "date" in data[j].keys():
+                date.append(dt.datetime.strptime(data[j]["date"][0:10], "%Y-%m-%d"))
+                # date.append(data[j]['date'][0:10])
 
             else:
                 time.pop(0)
-    j+=1
+    j += 1
 
-t=[0]
+t = [0]
 for i in time:
-    t.append(t[-1]+i)
+    t.append(t[-1] + i)
 
-date,time = zip(*sorted(zip(date, time)))
+date, time = zip(*sorted(zip(date, time)))
 
-import matplotlib.pyplot as plt
 
-plt.plot(date,t[1:], 'ko-')
-plt.xlabel('Year')
-plt.ylabel('Total time spent in space to date (hours)')
+plt.plot(date, t[1:], "ko-")
+plt.xlabel("Year")
+plt.ylabel("Total time spent in space to date (hours)")
 plt.tight_layout()
 plt.savefig(g_file)
 plt.show()
-#random addition
